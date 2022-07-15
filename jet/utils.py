@@ -275,7 +275,7 @@ def get_possible_language_codes():
 
 def get_original_menu_items(context):
     if context.get('user') and user_is_authenticated(context['user']):
-        pinned_apps = PinnedApplication.objects.filter(user=context['user'].pk).values_list('app_label', flat=True)
+        pinned_apps = list(PinnedApplication.objects.filter(user=context['user'].pk).values_list('app_label', flat=True))
     else:
         pinned_apps = []
 
@@ -319,7 +319,7 @@ def get_menu_item_url(url, original_app_list):
 
 
 def get_menu_items(context):
-    pinned_apps = PinnedApplication.objects.filter(user=context['user'].pk).values_list('app_label', flat=True)
+    pinned_apps = list(PinnedApplication.objects.filter(user=context['user'].pk).values_list('app_label', flat=True))
     original_app_list = OrderedDict(map(lambda app: (app['app_label'], app), get_original_menu_items(context)))
     custom_app_list = settings.JET_SIDE_MENU_ITEMS
     custom_app_list_deprecated = settings.JET_SIDE_MENU_CUSTOM_APPS
